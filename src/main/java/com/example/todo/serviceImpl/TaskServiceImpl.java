@@ -7,6 +7,8 @@ import com.example.todo.service.TaskService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskServiceImpl implements TaskService {
 
@@ -23,5 +25,11 @@ public class TaskServiceImpl implements TaskService {
         var entity = modelMapper.map(taskDto, TaskEntity.class);
         var task=  this.taskRepository.save(entity);
         return modelMapper.map(task,TaskDto.class);
+    }
+
+    @Override
+    public List<TaskDto> getAllTask() {
+        var listOfTask = this.taskRepository.findAll();
+        return listOfTask.stream().map(task-> modelMapper.map(task,TaskDto.class)).toList();
     }
 }
